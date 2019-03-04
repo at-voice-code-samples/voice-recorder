@@ -96,10 +96,7 @@ func main () {
 		}
 		defer out.Close()
 
-		_, err = io.Copy(out, resp.Body)
-		if err != nil {
-			panic(err)
-		}
+		go io.Copy(out, resp.Body)
 
 		setRecording(callerNumber, FileName)
 	})

@@ -2,6 +2,7 @@
 
 ###### Build:
 ```
+go get -u github.com/go-redis/redis
 go build app.go
 ```
 
