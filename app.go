@@ -20,7 +20,7 @@ type userInfo struct {
 var redisClient *redis.Client
 
 func createSession (callerNumber string) {
-	info := userInfo{Registered: true, FileName: "https://s3.eu-west-2.amazonaws.com/at-voice-sample/play.mp3"}
+	info := userInfo{Registered: true, FileName: ""}
 	jsonInfo,err := json.Marshal(info)
 	err = redisClient.Set(callerNumber, string(jsonInfo), 0).Err()
 	if err != nil {
@@ -116,6 +116,11 @@ func main () {
 						  </Record>
 						</Response>`, os.Args[1]+"/fetch")
 			case 2:
+				if len(recording) == 0 {
+					recording = "https://s3.eu-west-2.amazonaws.com/at-voice-sample/play.mp3"
+				}else{
+					recording = os.Args[1]+"/recordings/"+recording
+				}
 				fmt.Fprintf(w, `<Response>
 						  <Play url="%s"/>
 						</Response>`, recording)
